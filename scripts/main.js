@@ -40,6 +40,7 @@ function onSVGLoaded( data ){
   });
 
   initDrag();
+  labelAxis();
 }
 
 function initDrag(){
@@ -111,6 +112,10 @@ function addLocations(){
     dot.attr({
       transform: 's.2,.2,' + posX*1.25 + ',' + posY*1.25, 
       id: 'e-' + i,
+      'data-event': data[i].event,
+      'data-location': data[i].location,
+      'data-sd': data[i].startDate,
+      'data-ed': data[i].endDate,
       class: 'event',
       fill: '#222222',
     }).hover(function(){
@@ -139,9 +144,6 @@ function initGraphic(){
     fill: '#aaaaaa',
     id: 'xaxis'
   })
-
-  // creates a group element
-  bars = s.g().addClass('bars');
 
 
   progress = s.rect(dotUnit/4, vbh*(dotUnit + 1), 0, dotUnit/6);
@@ -196,22 +198,22 @@ function bigButtons(){
 }
 
 function labelAxis(){
-  //hardcoding duration because mobile browsers can't actually calculate it
-  if (!duration || duration<1){
-    duration = 226.063688;
-  }
 
-  for (var i=0, l=uniqueEvents.length; i<l; i++){
-    var date = uniqueEvents[i][0],
-        beat = uniqueEvents[i][1],
-        total = uniqueEvents[i][2],
-        location = uniqueEvents[i][3],
-        b2s = beat,///2.01, //beats to seconds
-        percent = b2s/(duration - fadeout), //subtract 5 for the extra seconds of the audio fading out
-        posX = (s.attr('viewBox').width - dotUnit/2) * percent + dotUnit/4,
-        posY = s.attr('viewBox').height-dotUnit*4+dotUnit/6.5;
+  // creates a group element
+  bars = s.g().addClass('bars');
 
-    var incident = s.rect(posX, posY, 3, total*1.75);
+  duration = data.length * 2;
+
+  for (var i=0, l=data.length; i<l; i++){
+    var date = data[i].startDate,
+        total = data[i].event,
+        location = data[i].location,
+        b2s = i,///2.01, //beats to seconds
+        percent = b2s/duration,
+        posX = s.attr('viewBox').width * percent,
+        posY = s.attr('viewBox').height-8;
+
+    var incident = s.rect(posX, posY, 3, 3);
     incident.attr({
       fill: '#aaaaaa',
       class: 'bar'
@@ -220,9 +222,9 @@ function labelAxis(){
       'location': location,
       'total': total
     }).click(function(){
-      tooltip(this, posY-dotUnit/2);
+      tooltip(this, posY);
     }).hover(function(){
-      tooltip(this, posY-dotUnit/2);
+      tooltip(this, posY);
     }, function(){
       s.select('#ttip-data').remove();
     });
@@ -233,21 +235,24 @@ function labelAxis(){
     if ( (i == 0) || (i == l-1) ){
       var splitDate = date.split('-'),
           //label = parseInt(splitDate[0]) + '/' + splitDate[2],
-          label = splitDate[2],
+          //label = splitDate[2],
+          label = date,
           t1;
       if (i == l-1){
-        t1 = s.text(posX-15, posY-dotUnit/2, label); //minus 15 due to extra time at end of audio track
+        t1 = s.text(posX-38, posY, label); //minus 15 due to extra time at end of audio track
       } else {
-        t1 = s.text(posX, posY-dotUnit/2, label);
+        t1 = s.text(posX, posY, label);
       }
       t1.attr({
         fill: '#666666',
-        'font-size': 8
+        'font-size': 8,
+        'transform': 'matrix(1,0,0,1,140,160)'
       });
     } 
 
     // Adds the use element to our group
     bars.add(incident);
+    bars.attr('transform', 'matrix(1,0,0,1,140,170)');
   }
 }
 
