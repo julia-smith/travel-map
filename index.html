@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Fellowship Map</title>
+<link href="style/style.css" rel="stylesheet" type="text/css" />
+
+<body>
+
+<script src="media/data.js"></script>
+<script src="media/locations.js"></script>
+<script src="scripts/ready.min.js"></script>
+<script src="scripts/snap.svg-min.js"></script>
+<script src="scripts/moment.min.js"></script>
+<script src="scripts/pym.min.js"></script>
+<script src="scripts/main.js"></script>
+
+<script>
+  var pymChild = new pym.Child();
+</script>
+
+<div id="wrapper">
+  <div class="html-container">
+    <h1>Fellowship Map</h1>
+
+    <div id="info-box">
+      Event: <span><script>document.write( data[0].event )</script></span><br />
+      Location: <span><script>document.write(data[0].location)</script></span><br />
+      Info: <span><script>document.write('<a href="' + data[0].website + '" target="_blank">' + data[0].website + '</a>')</script></span><br />
+      Date: <span><script>document.write( data[0].startDate )</script></span><br />
+    </div>
+
+  </div>
+
+  <div id="world-wrap">
+    <svg id="world" width="100%" viewBox="126 175.2 863.2 442.8"></svg>
+
+  </div> <!-- #world-wrap -->
+
+  <div class="html-container">
+
+    <!--<div id="tooltip">
+      <span class="date"><script>document.write(data[data.length-1].date)</script></span>
+      <span class="location"><script>document.write(data[data.length-1].location)</script></span>
+      <span class="total"><script>document.write(data[data.length-1].total)</script></span> fatalities
+    </div>-->
+
+    <p>This is a map of travel during Julia's Knight-Mozilla fellowship year.</p>
+
+    <div class="divider"></div>
+    <!--<p>
+      <strong>Credits:</strong><br />
+      Design and development by Julia Smith/Knight-Mozilla<br />
+    </p>-->    
+    <p>
+      <strong>Resources:</strong><br />
+      World map via <a href="https://commons.wikimedia.org/wiki/File:BlankMap-World6.svg" target="_blank">Wikimedia Commons</a><br />
+      SVG animation produced with <a href="http://snapsvg.io/" target="_blank">Snap.svg</a> (Dmitry Baranovskiy/Adobe)
+    </p>
+  </div>
+
+</div>
+
+
+
+</body>
+</html>
