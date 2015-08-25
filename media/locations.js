@@ -1,8 +1,8 @@
 var locations = [
     {
         "location": "Omaha",
-        "x": 194,
-        "y": 118
+        "x": 189,
+        "y": 113
     },
     {
         "location": "London",
@@ -26,8 +26,8 @@ var locations = [
     },
     {
         "location": "San Francisco Bay Area",
-        "x": 137,
-        "y": 118.6
+        "x": 135,
+        "y": 120
     },
     {
         "location": "Minneapolis",
@@ -43,5 +43,15 @@ var locations = [
         "location": "Buenos Aires",
         "x": 270.99,
         "y": 310
+    },
+    {
+        "location": "New York City",
+        "x": 244,
+        "y": 114
+    },
+    {
+        "location": "Boston",
+        "x": 252,
+        "y": 110
     }
 ]

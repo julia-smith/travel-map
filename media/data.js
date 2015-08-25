@@ -102,8 +102,8 @@ var data = [
     {
         "event": "OpenNews Code Convening",
         "location": "Portland",
-        "startDate": "07-22-2015",
-        "endDate": "07-25-2015",
+        "startDate": "07-23-2015",
+        "endDate": "07-24-2015",
         "type": "participant",
         "website": "https://opennews.org/what/community/convenings/",
         "from": "San Francisco Bay Area",
@@ -112,8 +112,8 @@ var data = [
     {
         "event": "NEJS Conf",
         "location": "Omaha",
-        "startDate": "08-06-2015",
-        "endDate": "08-08-2015",
+        "startDate": "08-07-2015",
+        "endDate": "08-07-2015",
         "type": "speaker",
         "website": "https://nejsconf.com/",
         "from": "San Francisco Bay Area",
@@ -130,13 +130,33 @@ var data = [
         "to": "San Francisco Bay Area"
     },
     {
+        "event": "Audio Hackathon",
+        "location": "New York City",
+        "startDate": "09-19-2015",
+        "endDate": "09-20-2015",
+        "type": "participant",
+        "website": "http://audiohackathon.com/",
+        "from": "San Francisco Bay Area",
+        "to": "Los Angeles"
+    },
+    {
         "event": "ONA",
         "location": "Los Angeles",
         "startDate": "09-24-2015",
         "endDate": "09-26-2015",
         "type": "attendee",
-        "website": "ona15.journalists.org",
-        "from": "San Francisco Bay Area",
+        "website": "http://ona15.journalists.org/",
+        "from": "New York City",
+        "to": "Boston"
+    },
+    {
+        "event": "MIT Media Lab",
+        "location": "Boston",
+        "startDate": "09-28-2015",
+        "endDate": "09-28-2015",
+        "type": "attendee",
+        "website": "https://www.media.mit.edu/",
+        "from": "Los Angeles",
         "to": "San Francisco Bay Area"
     },
     {
@@ -146,8 +166,8 @@ var data = [
         "endDate": "10-02-2015",
         "type": "attendee",
         "website": "https://www.codeforamerica.org/summit/",
-        "from": "San Francisco Bay Area",
-        "to": "San Francisco Bay Area"
+        "from": "-",
+        "to": "-"
     },
     {
         "event": "MozFest",
@@ -158,5 +178,15 @@ var data = [
         "website": "https://2015.mozillafestival.org/",
         "from": "San Francisco Bay Area",
         "to": "San Francisco Bay Area"
+    },
+    {
+        "event": "Homaha",
+        "location": "Omaha",
+        "startDate": "11-17-2015",
+        "endDate": "11-17-2015",
+        "type": "home",
+        "website": "http://julia-smith.com",
+        "from": "San Francisco Bay Area",
+        "to": "-"
     }
 ]

@@ -1,5 +1,5 @@
 # travel-map
-Another Snap.svg Experiement
+Another Snap.svg Experiment
 
 ## Quickstart
 	python -m SimpleHTTPServer 8000

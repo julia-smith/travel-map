@@ -110,7 +110,7 @@ function addLocations(){
     dot = g.path('M 0.000 15.000,L 23.511 32.361,L 14.266 4.635,L 38.042 -12.361,L 8.817 -12.135,L 0.000 -40.000,L -8.817 -12.135,L -38.042 -12.361,L -14.266 4.635,L -23.511 32.361,L 0.000 15.000');
 
     dot.attr({
-      transform: 's.2,.2,' + posX*1.25 + ',' + posY*1.25, 
+      transform: 's.15,.15,' + posX*1.18 + ',' + posY*1.18, 
       id: 'e-' + i,
       'data-event': data[i].event,
       'data-location': data[i].location,
@@ -202,7 +202,7 @@ function labelAxis(){
   // creates a group element
   bars = s.g().addClass('bars');
 
-  duration = data.length * 2;
+  duration = data.length;
 
   for (var i=0, l=data.length; i<l; i++){
     var date = data[i].startDate,
@@ -210,8 +210,8 @@ function labelAxis(){
         location = data[i].location,
         b2s = i,///2.01, //beats to seconds
         percent = b2s/duration,
-        posX = s.attr('viewBox').width * percent,
-        posY = s.attr('viewBox').height-8;
+        posX = s.attr('viewBox').width * percent + 10, //plus 10 to visually center timeline
+        posY = s.attr('viewBox').height-3;
 
     var incident = s.rect(posX, posY, 3, 3);
     incident.attr({
