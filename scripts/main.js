@@ -1,6 +1,6 @@
 var s,
     g,
-    dots,
+    stars,
     bars,
     dotUnit = 15,
     progress,
@@ -33,7 +33,6 @@ function onSVGLoaded( data ){
       vb = map.attr('viewBox');
   g.add(map);
   //s.attr('viewBox', vb);
-  addLocations();
 
   g.attr({
     'transform': 'matrix(1,0,0,1,' + vb.x + ',' + vb.y + ')'
@@ -41,6 +40,17 @@ function onSVGLoaded( data ){
 
   initDrag();
   labelAxis();
+
+
+  addLocations();
+  animateTravel();
+  changeColors();
+}
+
+function changeColors(){
+  var land = g.selectAll('.st0, .st1, .st2, .st3').attr({
+    fill: '#cccccc'
+  })
 }
 
 function initDrag(){
@@ -86,7 +96,7 @@ function addLocations(){
       l = data.length; // var data is defined in media/data.js
 
   // creates a group element
-  dots = g.g().addClass('dots');
+  stars = g.g().addClass('dots');
 
   for (var i=0; i<l; i++){
 
@@ -94,7 +104,7 @@ function addLocations(){
         locL = locations.length,
         posX,
         posY,
-        dot;
+        star;
 
     // iterate over each element in the array
     for (var j=0; j<locL; j++){
@@ -107,9 +117,9 @@ function addLocations(){
 
 
     //dot = g.circle(posX, posY, radius);
-    dot = g.path('M 0.000 15.000,L 23.511 32.361,L 14.266 4.635,L 38.042 -12.361,L 8.817 -12.135,L 0.000 -40.000,L -8.817 -12.135,L -38.042 -12.361,L -14.266 4.635,L -23.511 32.361,L 0.000 15.000');
+    star = g.path('M 0.000 15.000,L 23.511 32.361,L 14.266 4.635,L 38.042 -12.361,L 8.817 -12.135,L 0.000 -40.000,L -8.817 -12.135,L -38.042 -12.361,L -14.266 4.635,L -23.511 32.361,L 0.000 15.000');
 
-    dot.attr({
+    star.attr({
       transform: 's.15,.15,' + posX*1.18 + ',' + posY*1.18, 
       id: 'e-' + i,
       'data-event': data[i].event,
@@ -117,24 +127,50 @@ function addLocations(){
       'data-sd': data[i].startDate,
       'data-ed': data[i].endDate,
       class: 'event',
-      fill: '#222222',
+      opacity: 0
     }).hover(function(){
       this.attr({
-        fill: '#00a99d',
+        //fill: '#00a99d',
         cursor: 'pointer'
       });
     }, function(){      
       this.attr({
-        fill: '#222222',
         cursor: '-webkit-grab'
       });
     });
 
     // Adds the use element to our group
-    dots.add(dot);
+    stars.add(star);
   }
 
 }
+
+function animateTravel(){
+  var star = stars[0];
+  star.animate({
+    fill: '#00a99d',
+    opacity: 1
+  }, 500, mina.easeinout, shootStar(0) );
+}
+
+function shootStar(i){
+  var thisStar = stars[i],
+      nextStar = stars[i+1],
+      matrix; 
+  if (nextStar){
+    matrix = nextStar.matrix;
+    thisStar.animate({
+      opacity: 1
+    }, 500, mina.easeinout);
+    thisStar.animate({
+      transform: matrix
+    }, 2000, mina.easeinout, function(){
+      i++;
+      shootStar(i);
+    });
+  }
+}
+
 
 function initGraphic(){
 

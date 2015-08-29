@@ -2,7 +2,7 @@ var locations = [
     {
         "location": "Omaha",
         "x": 189,
-        "y": 113
+        "y": 115
     },
     {
         "location": "London",
@@ -32,7 +32,7 @@ var locations = [
     {
         "location": "Minneapolis",
         "x": 203,
-        "y": 102.7
+        "y": 104
     },
     {
         "location": "Portland",
