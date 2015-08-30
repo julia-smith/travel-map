@@ -42,9 +42,9 @@ function onSVGLoaded( data ){
   labelAxis();
 
 
+  changeColors();
   addLocations();
   animateTravel();
-  changeColors();
 }
 
 function changeColors(){
@@ -96,7 +96,7 @@ function addLocations(){
       l = data.length; // var data is defined in media/data.js
 
   // creates a group element
-  stars = g.g().addClass('dots');
+  stars = g.g().addClass('stars');
 
   for (var i=0; i<l; i++){
 
