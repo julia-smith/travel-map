@@ -44,7 +44,7 @@ function onSVGLoaded( data ){
 
   changeColors();
   addLocations();
-  animateTravel();
+  //animateTravel();
 }
 
 function changeColors(){
@@ -94,79 +94,143 @@ var hoverout = function() { g.animate({ transform: 's1r0,150,150' }, 1000, mina.
 function addLocations(){
   var radius = 4.5,
       l = data.length; // var data is defined in media/data.js
+      
 
-  // creates a group element
-  stars = g.g().addClass('stars');
+  starsLocations = [];
+  stars = g.g().addClass('stars'); // creates a group element
 
   for (var i=0; i<l; i++){
 
     var date = data[i].startDate,
         locL = locations.length,
+        starStops = [],
+        startX,
+        startY,
         posX,
         posY,
+        endX,
+        endY,
         star;
 
     // iterate over each element in the array
     for (var j=0; j<locL; j++){
-      // look for the entry with a matching `code` value
+
+      //check for empty start and end locations
+      if (data[i].from == '-'){
+        data[i].from = data[i].location;
+      }
+      if (data[i].to == '-'){
+        data[i].to = data[i].location;
+      }
+
+      // look for the entry with a matching starting `location` value
+      if (locations[j].location == data[i].from){
+         startX = locations[j].x;
+         startY = locations[j].y;
+      }
+      // look for the entry with a matching destination `location` value
       if (locations[j].location == data[i].location){
          posX = locations[j].x;
          posY = locations[j].y;
       }
+      // look for the entry with a matching ending `location` value
+      if (locations[j].location == data[i].to){
+         endX = locations[j].x;
+         endY = locations[j].y;
+      }
     }
+
+    if (!startX) {startX = posX;}
+    if (!startY) {startY = posY;}
+    if (!endX) {endX = posX;}
+    if (!endY) {endY = posY;}
+
+    starStops.push([startX, startY], [posX, posY], [endX, endY]);
 
 
     //dot = g.circle(posX, posY, radius);
     star = g.path('M 0.000 15.000,L 23.511 32.361,L 14.266 4.635,L 38.042 -12.361,L 8.817 -12.135,L 0.000 -40.000,L -8.817 -12.135,L -38.042 -12.361,L -14.266 4.635,L -23.511 32.361,L 0.000 15.000');
 
     star.attr({
-      transform: 's.15,.15,' + posX*1.18 + ',' + posY*1.18, 
+      transform: 's.15,.15,' + startX*1.18 + ',' + startY*1.18, 
       id: 'e-' + i,
       'data-event': data[i].event,
       'data-location': data[i].location,
       'data-sd': data[i].startDate,
       'data-ed': data[i].endDate,
       class: 'event',
+      fill: '#00a99d',
       opacity: 0
-    }).hover(function(){
-      this.attr({
-        //fill: '#00a99d',
-        cursor: 'pointer'
-      });
-    }, function(){      
-      this.attr({
-        cursor: '-webkit-grab'
-      });
     });
 
     // Adds the use element to our group
     stars.add(star);
+    starsLocations.push(starStops);
   }
 
-}
+  shootStar(0);
 
-function animateTravel(){
-  var star = stars[0];
-  star.animate({
-    fill: '#00a99d',
-    opacity: 1
-  }, 500, mina.easeinout, shootStar(0) );
 }
 
 function shootStar(i){
   var thisStar = stars[i],
-      nextStar = stars[i+1],
-      matrix; 
-  if (nextStar){
-    matrix = nextStar.matrix;
+      destMatrix = new Snap.Matrix(),
+      returnMatrix = new Snap.Matrix();
+  if (starsLocations[i]){
+    var locations = starsLocations[i],
+        destX = locations[1][0],
+        destY = locations[1][1],
+        returnX = locations[2][0],
+        returnY = locations[2][1];
+
+    destMatrix.translate(destX,destY);
+    destMatrix.scale(.15, .15);
+    // show star
     thisStar.animate({
       opacity: 1
     }, 500, mina.easeinout);
+    // move star to destination/location position
     thisStar.animate({
-      transform: matrix
-    }, 2000, mina.easeinout, function(){
-      i++;
-      shootStar(i);
+      transform: destMatrix
+    }, 1000, mina.easeinout, function(){
+      returnMatrix.translate(returnX,returnY);
+      returnMatrix.scale(.15, .15);
+
+      var name = thisStar.attr('data-location');
+      var clones = s.selectAll('.clone[data-location="' + name + '"]');
+      // if a clone doesn't already exist, create one
+      if (clones.length == 0){
+        var clone = thisStar.clone();
+        clone.attr({
+          class: 'clone'
+        }).hover(function(){
+          this.attr({
+            fill: '#222222',
+            cursor: 'pointer'
+          });
+        }, function(){      
+          this.attr({
+            fill: '#00a99d',
+            cursor: '-webkit-grab'
+          });
+        });
+        stars.add(clone);
+      };
+
+      setTimeout(function(){
+        // move star to return position
+        thisStar.animate({
+          transform: returnMatrix
+        }, 1000, mina.easeinout, function(){
+          // hide star
+          thisStar.attr({
+            opacity: 0
+          });
+          //repeat for next location
+          i++;
+          shootStar(i);
+        });
+      }, 2000);
     });
   }
 }

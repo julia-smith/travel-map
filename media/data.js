@@ -146,7 +146,7 @@ var data = [
         "endDate": "09-26-2015",
         "type": "attendee",
         "website": "http://ona15.journalists.org/",
-        "from": "New York City",
+        "from": "-",
         "to": "Boston"
     },
     {
@@ -156,7 +156,7 @@ var data = [
         "endDate": "09-28-2015",
         "type": "attendee",
         "website": "https://www.media.mit.edu/",
-        "from": "Los Angeles",
+        "from": "-",
         "to": "San Francisco Bay Area"
     },
     {
