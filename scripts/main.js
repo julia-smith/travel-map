@@ -172,6 +172,18 @@ function addLocations(){
 
 }
 
+function updateInfoBox(i){
+  var box = document.getElementById('info-box'),
+      html = '';
+
+  html += 'Event: <span>' + data[i].event + '</span><br />';
+  html += 'Location: <span>' + data[i].location + '</span><br />';
+  html += 'Info: <span><a href="' + data[i].website + '" target="_blank">' + data[i].website + '</a></span><br />';
+  html += 'Date: <span>' + data[i].startDate + '</span><br />';
+
+  box.innerHTML = html;
+}
+
 function shootStar(i){
   var thisStar = stars[i],
       destMatrix = new Snap.Matrix(),
@@ -193,6 +205,9 @@ function shootStar(i){
     thisStar.animate({
       transform: destMatrix
     }, 1000, mina.easeinout, function(){
+
+      updateInfoBox(i);
+
       returnMatrix.translate(returnX,returnY);
       returnMatrix.scale(.15, .15);
 
@@ -356,40 +371,11 @@ function labelAxis(){
   }
 }
 
-function prettyTime(time){
-  // Minutes and seconds
-  var mins = ~~(time / 60);
-  var secs = time % 60;
-
-  // Hours, minutes and seconds
-  var hrs = ~~(time / 3600);
-  var mins = ~~((time % 3600) / 60);
-  var secs = time % 60;
-
-  // Output like "1:01" or "4:03:59" or "123:03:59"
-  ret = "";
-
-  if (hrs > 0) {
-      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
-  }
-
-  ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-  //ret += "" + parseFloat(secs).toFixed(2);
-  ret += "" + parseInt(secs);
-  return ret;
-}
 
 function str_pad_left(string,pad,length) {
   return (new Array(length+1).join(pad)+string).slice(-length);
 }
 
-function updateTime(audio){
-  var acurrent = audio.currentTime;
-
-  var currentTime = Math.floor(acurrent);
-  
-  document.getElementById('tracktime').innerHTML = prettyTime(audio.currentTime) + ' | ' + prettyTime(duration);
-}
 
 function progressBar(audio){
   var acurrent = audio.currentTime,
@@ -466,58 +452,6 @@ function addEvents(audio){
 
 }
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function animateDots(event){
-  var date = event[0],
-      total = event[2],
-      title = event[3],
-      selectedCount = 0;
-
-  totals += total; //need to subtact this from total fatalities so that the random number generator has the correct range 
-
-  for (var i=0; i<total; i++){
-    var delay = 35*(i);
-
-    setTimeout(function(){
-      var max = data.length-totals;
-      if (max > 5){
-        var random = getRandomInt(1, max);
-        selected = s.selectAll('circle.light')[random];//:nth-of-type(' + random + ')');
-      } else {
-        selected = s.selectAll('circle.light')[0];
-      }
-      
-      if (selected){
-        dots.append(selected); //brings selected dot to front
-        selected.attr({
-          class: '',
-          fill: accentColor
-        });
-        selected.animate({
-          cy: 330
-          //transform: 'r90,200,200'//,
-          //opacity: 0
-        }, 1500, mina.easeinout);
-        selected.animate({
-          opacity: 0,
-          //fill: '#444444'
-        }, 850);
-      } 
-    }, delay);
-    selectedCount++;
-  }
-
-  var lights = s.selectAll('.light').length;
-  //console.log('lights left:' + lights);
-  //console.log('difference:' + (data.length - lights) );
-
-  count++;
-  //console.log(date + ' fatalities=' + total + ' count=' + count + /*' random=' + random + */' selectedcount=' + selectedCount + ' grandtotal=' + totals);
-
-}
 
 function tooltip(elem, posY){
   var date = elem.data('date'),
@@ -546,46 +480,6 @@ function tooltip(elem, posY){
   info.animate({
     opacity: 1
   }, 100)
-}
-
-function audioHooks(audio){
-  addEvents(audio);
-  updateTime(audio);
-  setTimeout(function(){
-    progressBar(audio);
-  },100)
-}
-function audioData(audio){
-  duration = audio.duration;
-  labelAxis();
-  updateTime(audio);
-  audio.addEventListener("ended",function() {
-    document.getElementById('pauseBtn').style.display = 'none';
-    document.getElementById('playBtn').style.display = 'inline';
-  });
-}
-function checkAudio(){
-  var audio = document.getElementById('track');
-  if(audio.ended){
-    rewind(audio);
-  } else {
-    audio.play();
-    var bigPlay = s.select('.playgroup')
-    if (bigPlay){
-      bigPlay.animate({
-        opacity:0
-      }, 250, mina.easeinout, function(){
-        this.remove();
-      });
-    }
-  }
-  document.getElementById('pauseBtn').style.display = 'inline';
-  document.getElementById('playBtn').style.display = 'none';
-}
-function pauseAudio(){
-  document.getElementById('track').pause();
-  document.getElementById('pauseBtn').style.display = 'none';
-  document.getElementById('playBtn').style.display = 'inline';
 }
 function restart(){
   document.getElementById('ms-timeline').innerHTML = '';
