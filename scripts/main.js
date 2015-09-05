@@ -251,24 +251,6 @@ function shootStar(i){
 }
 
 
-function initGraphic(){
-
-  // timetracker box
-  /*rect = s.rect(dotUnit/4, vbh*(dotUnit + 1), vbw-dotUnit/2, dotUnit/6);
-  rect.attr({
-    fill: '#aaaaaa',
-    id: 'xaxis'
-  })
-
-
-  progress = s.rect(dotUnit/4, vbh*(dotUnit + 1), 0, dotUnit/6);
-  progress.attr({
-    fill: accentColor
-  })*/
-
-  
-}
-
 function bigButtons(){
   //play button stuff
   var playMatrix = new Snap.Matrix();
@@ -453,34 +435,6 @@ function addEvents(audio){
 }
 
 
-function tooltip(elem, posY){
-  var date = elem.data('date'),
-      location = elem.data('location'),
-      total = elem.data('total'),
-      text = date + '   |   ' + location + '   |   ' + total + ' fatalities',
-      info = s.text(0, posY, text),
-      tip = s.select('#ttip-data'),
-      posX;
-
-  if (tip) {
-    tip.remove();
-  }
-
-  info.attr({
-    fill: '#666666',
-    opacity: 0,
-    'font-size': 8,
-    id: 'ttip-data'
-  });
-  info.node.setAttributeNS('http://www.w3.org/XML/1998/namespace', 'xml:space', 'preserve');
-  posX = s.select('#xaxis').attr('width')/2 - info.node.clientWidth/2;
-  info.attr({
-    x: posX
-  })
-  info.animate({
-    opacity: 1
-  }, 100)
-}
 function restart(){
   document.getElementById('ms-timeline').innerHTML = '';
   var audio = document.getElementById('track');
