@@ -229,6 +229,11 @@ function shootStar(i){
             cursor: '-webkit-grab'
           });
         });
+        clone.click(function(){
+          var clicked = this;
+          var id = clicked.attr('id').replace('e-', '');
+          //updateInfoBox(id);
+        })
         stars.add(clone);
       };
 
