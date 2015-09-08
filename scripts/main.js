@@ -231,7 +231,7 @@ function shootStar(i){
         });
         clone.click(function(){
           var clicked = this;
-          var id = clicked.attr('id').replace('e-', '');
+          //var id = clicked.attr('id').replace('e-', '');
           //updateInfoBox(id);
         })
         stars.add(clone);
