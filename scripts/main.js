@@ -247,10 +247,16 @@ function shootStar(i){
             opacity: 0
           });
           //repeat for next location
+          var wait = 3000;
+          if (i==0){
+            wait = 0; //no delay for the first event
+          }
           i++;
-          shootStar(i);
+          setTimeout(function(){
+            shootStar(i);
+          }, wait); //time between events
         });
-      }, 2000);
+      }, 500); //time between ariving and leaving destination
     });
   }
 }
